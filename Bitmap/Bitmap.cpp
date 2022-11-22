@@ -220,25 +220,23 @@ LRESULT CALLBACK WndProc(
         hBitmapFilter = CreateCompatibleBitmap(hdc, FILTER_WIDTH, FILTER_HEIGHT);
         SelectObject(hMemFilterDC, hBitmapFilter);
 
+        /*
         // いろいろなフィルタ処理
         for (int x = FILTER_X; x < FILTER_X + FILTER_WIDTH; x++) {
             for (int y = FILTER_Y; y < FILTER_Y + FILTER_HEIGHT; y++) {
                 // 3x3平均
-                //SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, avr3x3Filter(hMemDC, x, y));
+                SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, avr3x3Filter(hMemDC, x, y));
 
                 // 5x5平均
                 // SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, avr5x5Filter(hMemDC, x, y));
 
                 // グレースケール化
                 // SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, grayFilter(hMemDC, x, y));
-
-                // 基本課題：5x5のモザイク
-                SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, mosaic5x5Filter(hMemDC, x, y));
             }
         }
         BitBlt(hMemDC, FILTER_X, FILTER_Y, FILTER_WIDTH, FILTER_HEIGHT,
             hMemFilterDC, 0, 0, SRCCOPY);
-
+        */
         ReleaseDC(hwnd, hdc);
         return 0;
     case WM_CLOSE:
@@ -256,7 +254,7 @@ LRESULT CALLBACK WndProc(
         // ビットブロック転送
         RECT rc;
         GetClientRect(hwnd, &rc); // クライアント領域のサイズ
-        /*
+
         BitBlt(
             hdc,
             0,
@@ -267,45 +265,22 @@ LRESULT CALLBACK WndProc(
             0,
             0,
             SRCCOPY);
-         */
 
-        int width = rc.right - rc.left;
-        int height = rc.bottom - rc.top;
-
-        int imgW = bmp_info.bmWidth;
-        int imgH = bmp_info.bmHeight;
-
-        int newImgW = 0;
-        int newImgH = 0;
-        int xOffset = 0;
-        int yOffset = 0;
-        if (width / imgW * imgH > height) {
-            // 画像の高さに合わせる必要あり
-            newImgH = height;
-            newImgW = (double)height / (double)imgH * imgW;
-            xOffset = (width - newImgW) / 2;
-        }
-        else {
-            // 画像の幅に合わせる必要あり
-            newImgW = width;
-            newImgH = (double)width / (double)imgW * imgH;
-            yOffset = (height - newImgH) / 2;
-        }
-
+        /*
         StretchBlt(
             hdc,
-            xOffset,
-            yOffset,
-            newImgW,
-            newImgH,
+            0, 
+            0,
+            rc.right - rc.left,
+            rc.bottom - rc.top,
             hMemDC,
             0,
             0,
-            imgW,
-            imgH,
+            bmp_info.bmWidth,
+            bmp_info.bmHeight,
             SRCCOPY
         );
-
+        */
 
         EndPaint(hwnd, &paint);
 
