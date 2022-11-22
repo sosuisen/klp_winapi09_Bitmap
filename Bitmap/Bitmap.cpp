@@ -164,6 +164,7 @@ LRESULT CALLBACK WndProc(
         GetObject(hBitmap, (int)sizeof(BITMAP), &bmp_info);
         SelectObject(hMemDC, hBitmap);
 
+        /*
         hMemFilterDC = CreateCompatibleDC(hdc);
         hBitmapFilter = CreateCompatibleBitmap(hdc, FILTER_WIDTH, FILTER_HEIGHT);
         SelectObject(hMemFilterDC, hBitmapFilter);
@@ -177,15 +178,12 @@ LRESULT CALLBACK WndProc(
                 // 5x5平均
                 // SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, avr5x5Filter(hMemDC, x, y));
 
-                // 白塗りつぶし」
-                // SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, RGB(255, 255, 255));
-
                 // グレースケール化
-                SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, grayFilter(hMemDC, x, y));
+                // SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, grayFilter(hMemDC, x, y));
             }
         }
-        BitBlt(hMemDC, FILTER_X, FILTER_Y, FILTER_WIDTH, FILTER_HEIGHT,
-            hMemFilterDC, 0, 0, SRCCOPY);
+        // BitBlt(hMemDC, FILTER_X, FILTER_Y, FILTER_WIDTH, FILTER_HEIGHT,hMemFilterDC, 0, 0, SRCCOPY);
+        */
 
         ReleaseDC(hwnd, hdc);
         return 0;
