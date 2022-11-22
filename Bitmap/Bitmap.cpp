@@ -114,7 +114,7 @@ COLORREF avr5x5Filter(HDC hMemDC, int x, int y) {
         + GetGValue(c20) + GetGValue(c21) + GetGValue(c22) + GetGValue(c23) + GetGValue(c24)
         + GetGValue(c30) + GetGValue(c31) + GetGValue(c32) + GetGValue(c33) + GetGValue(c34)
         + GetGValue(c40) + GetGValue(c41) + GetGValue(c42) + GetGValue(c43) + GetGValue(c44)
-        ) / 25; 
+        ) / 25;
     byte b = (GetBValue(c00) + GetBValue(c01) + GetBValue(c02) + GetBValue(c03) + GetBValue(c04)
         + GetBValue(c10) + GetBValue(c11) + GetBValue(c12) + GetBValue(c13) + GetBValue(c14)
         + GetBValue(c20) + GetBValue(c21) + GetBValue(c22) + GetBValue(c23) + GetBValue(c24)
@@ -130,7 +130,7 @@ COLORREF grayFilter(HDC hMemDC, int x, int y) {
     //byte gray = (GetRValue(col) + GetGValue(col) + GetBValue(col)) / 3;
 
     // CIE XYZ 規格
-     byte gray = 0.2126 * GetRValue(col) + 0.7152 * GetGValue(col) + 0.0722*GetBValue(col);
+    byte gray = 0.2126 * GetRValue(col) + 0.7152 * GetGValue(col) + 0.0722 * GetBValue(col);
 
     return RGB(gray, gray, gray);
 }
@@ -153,7 +153,7 @@ LRESULT CALLBACK WndProc(
     HDC hdc;
 
     switch (uMsg) {
-    case WM_CREATE:        
+    case WM_CREATE:
         // オフスクリーンをメモリデバイスコンテキストを用いて作成
         hdc = GetDC(hwnd);
         hMemDC = CreateCompatibleDC(hdc);
@@ -169,7 +169,6 @@ LRESULT CALLBACK WndProc(
         hBitmapFilter = CreateCompatibleBitmap(hdc, FILTER_WIDTH, FILTER_HEIGHT);
         SelectObject(hMemFilterDC, hBitmapFilter);
 
-
         for (int x = FILTER_X; x < FILTER_X + FILTER_WIDTH; x++) {
             for (int y = FILTER_Y; y < FILTER_Y + FILTER_HEIGHT; y++) {
                 // 3x3平均
@@ -182,7 +181,8 @@ LRESULT CALLBACK WndProc(
                 // SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, grayFilter(hMemDC, x, y));
             }
         }
-        // BitBlt(hMemDC, FILTER_X, FILTER_Y, FILTER_WIDTH, FILTER_HEIGHT,hMemFilterDC, 0, 0, SRCCOPY);
+        BitBlt(hMemDC, FILTER_X, FILTER_Y, FILTER_WIDTH, FILTER_HEIGHT,
+            hMemFilterDC, 0, 0, SRCCOPY);
         */
 
         ReleaseDC(hwnd, hdc);
