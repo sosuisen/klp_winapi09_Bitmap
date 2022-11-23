@@ -210,7 +210,7 @@ LRESULT CALLBACK WndProc(
         hMemDC = CreateCompatibleDC(hdc);
         // 画像をファイルから読み込む
 
-        hBitmap = (HBITMAP)LoadImage(NULL, L"kyocotan.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+        hBitmap = (HBITMAP)LoadImage(NULL, L"kyocotan_tate.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
         // ビットマップの情報を取得し、bmp_infoに保管
         GetObject(hBitmap, (int)sizeof(BITMAP), &bmp_info);
         SelectObject(hMemDC, hBitmap);
@@ -256,6 +256,7 @@ LRESULT CALLBACK WndProc(
         // ビットブロック転送
         RECT rc;
         GetClientRect(hwnd, &rc); // クライアント領域のサイズ
+        
         /*
         BitBlt(
             hdc,
@@ -267,8 +268,8 @@ LRESULT CALLBACK WndProc(
             0,
             0,
             SRCCOPY);
-         */
-
+        */
+        
         int width = rc.right - rc.left;
         int height = rc.bottom - rc.top;
 
@@ -279,7 +280,8 @@ LRESULT CALLBACK WndProc(
         int newImgH = 0;
         int xOffset = 0;
         int yOffset = 0;
-        if (width / imgW * imgH > height) {
+        // 画像の幅をウィンドウの幅に合わせた場合
+        if ((double)width / (double)imgW * imgH > height) {
             // 画像の高さに合わせる必要あり
             newImgH = height;
             newImgW = (double)height / (double)imgH * imgW;
@@ -305,7 +307,7 @@ LRESULT CALLBACK WndProc(
             imgH,
             SRCCOPY
         );
-
+        
 
         EndPaint(hwnd, &paint);
 
