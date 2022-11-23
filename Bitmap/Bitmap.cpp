@@ -180,7 +180,7 @@ COLORREF grayFilter(HDC hMemDC, int x, int y) {
     COLORREF col = GetPixel(hMemDC, x, y);
     //byte gray = (GetRValue(col) + GetGValue(col) + GetBValue(col)) / 3;
 
-    // CIE XYZ 規格
+    // CIE 1931 XYZ 規格
     byte gray = 0.2126 * GetRValue(col) + 0.7152 * GetGValue(col) + 0.0722 * GetBValue(col);
 
     return RGB(gray, gray, gray);
@@ -237,6 +237,7 @@ LRESULT CALLBACK WndProc(
         BitBlt(hMemDC, FILTER_X, FILTER_Y, FILTER_WIDTH, FILTER_HEIGHT,
             hMemFilterDC, 0, 0, SRCCOPY);
         */
+
         ReleaseDC(hwnd, hdc);
         return 0;
     case WM_CLOSE:
@@ -254,6 +255,7 @@ LRESULT CALLBACK WndProc(
         // ビットブロック転送
         RECT rc;
         GetClientRect(hwnd, &rc); // クライアント領域のサイズ
+
 
         BitBlt(
             hdc,
