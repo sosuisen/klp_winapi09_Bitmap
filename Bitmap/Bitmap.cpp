@@ -1,8 +1,8 @@
 ﻿#include <windows.h>
 #include <string>
 
-static const int MAX_WIDTH = 1000;
-static const int MAX_HEIGHT = 500;
+static const int WIN_WIDTH = 1000;
+static const int WIN_HEIGHT = 500;
 
 LRESULT CALLBACK WndProc(
     HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -35,7 +35,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         szAppName, szAppName,
         WS_OVERLAPPEDWINDOW,
         50, 50,
-        MAX_WIDTH, MAX_HEIGHT,
+        WIN_WIDTH, WIN_HEIGHT,
         NULL, NULL,
         hInstance, NULL);
 
