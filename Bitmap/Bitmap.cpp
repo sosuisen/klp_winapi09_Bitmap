@@ -240,7 +240,7 @@ LRESULT CALLBACK WndProc(
                 // グレースケール化
                 // SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, grayFilter(hMemDC, x, y));
 
-                // 基本課題：5x5のモザイク
+                // 発展課題：5x5のモザイク
                 SetPixelV(hMemFilterDC, x - FILTER_X, y - FILTER_Y, mosaic5x5Filter(hMemDC, x, y));
             }
         }
