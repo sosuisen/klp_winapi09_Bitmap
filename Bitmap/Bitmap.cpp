@@ -1,8 +1,9 @@
 ﻿#include <windows.h>
 #include <string>
+#include <chrono>
 
-static const int MAX_WIDTH = 1000;
-static const int MAX_HEIGHT = 500;
+static const int WIN_WIDTH = 1000;
+static const int WIN_HEIGHT = 500;
 
 LRESULT CALLBACK WndProc(
     HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -35,7 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
         szAppName, szAppName,
         WS_OVERLAPPEDWINDOW,
         50, 50,
-        MAX_WIDTH, MAX_HEIGHT,
+        WIN_WIDTH, WIN_HEIGHT,
         NULL, NULL,
         hInstance, NULL);
 
@@ -203,14 +204,21 @@ LRESULT CALLBACK WndProc(
 
     HDC hdc;
 
+    // benchmark
+    std::chrono::system_clock::time_point start, end;
+    long microsec = 0;
+
     switch (uMsg) {
     case WM_CREATE:
+        // ベンチマーク開始
+        start = std::chrono::system_clock::now();
+
         // オフスクリーンをメモリデバイスコンテキストを用いて作成
         hdc = GetDC(hwnd);
         hMemDC = CreateCompatibleDC(hdc);
         // 画像をファイルから読み込む
 
-        hBitmap = (HBITMAP)LoadImage(NULL, L"kyocotan_tate.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+        hBitmap = (HBITMAP)LoadImage(NULL, L"kyocotan.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
         // ビットマップの情報を取得し、bmp_infoに保管
         GetObject(hBitmap, (int)sizeof(BITMAP), &bmp_info);
         SelectObject(hMemDC, hBitmap);
@@ -238,6 +246,13 @@ LRESULT CALLBACK WndProc(
         }
         BitBlt(hMemDC, FILTER_X, FILTER_Y, FILTER_WIDTH, FILTER_HEIGHT,
             hMemFilterDC, 0, 0, SRCCOPY);
+
+
+        // ベンチマーク終了
+        end = std::chrono::system_clock::now();
+        microsec = std::chrono::duration_cast<std::chrono::microseconds>(end - start).count();
+        OutputDebugString((std::to_wstring(microsec) + L"\n").c_str());
+
 
         ReleaseDC(hwnd, hdc);
         return 0;
