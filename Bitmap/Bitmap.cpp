@@ -124,7 +124,7 @@ LRESULT CALLBACK WndProc(
 
     switch (uMsg) {
     case WM_CREATE: {
-        // ベンチマーク開始（発展課題用）
+        // ベンチマーク開始
         start = std::chrono::system_clock::now();
 
         // オフスクリーンをメモリデバイスコンテキストを用いて作成
